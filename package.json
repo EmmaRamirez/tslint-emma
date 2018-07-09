@@ -1,0 +1,21 @@
+{
+  "name": "tslint-emma",
+  "version": "0.0.1",
+  "description": "a tslint extension for emma",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "tsc src/index.ts"
+  },
+  "keywords": [
+    "tslint",
+    "custom",
+    "rules"
+  ],
+  "author": "Emma Ramirez",
+  "license": "MIT",
+  "devDependencies": {
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.2"
+  }
+}
