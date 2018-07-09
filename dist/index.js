@@ -10,7 +10,11 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
+var ts = require("typescript");
 var Lint = require("tslint");
+/**
+ * Implementation of no-react-asterisk-import rule
+ */
 var Rule = /** @class */ (function (_super) {
     __extends(Rule, _super);
     function Rule() {
@@ -18,6 +22,12 @@ var Rule = /** @class */ (function (_super) {
     }
     Rule.prototype.apply = function (sourceFile) {
         return this.applyWithWalker(new NoReactAsteriskImportsWalker(sourceFile, this.getOptions()));
+    };
+    Rule.metadata = {
+        ruleName: 'no-react-asterisk-imports',
+        type: 'maintainability',
+        description: 'Avoid using asterisk imports with React',
+        severity: 'Low'
     };
     Rule.FAILURE_STRING = "Use import React, { ... } instead";
     return Rule;
@@ -29,8 +39,19 @@ var NoReactAsteriskImportsWalker = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     NoReactAsteriskImportsWalker.prototype.visitImportDeclaration = function (node) {
+        if (node.importClause.name != null) {
+            var name_1 = node.importClause.name.text;
+            if (node.moduleSpecifier.kind === ts.SyntaxKind.StringLiteral) {
+                var moduleName = node.moduleSpecifier.text;
+                this.validateImport(node, name_1, moduleName);
+            }
+        }
         this.addFailure(this.createFailure(node.getStart(), node.getWidth(), Rule.FAILURE_STRING));
         _super.prototype.visitImportDeclaration.call(this, node);
+    };
+    NoReactAsteriskImportsWalker.prototype.validateImport = function (node, importedName, moduleName) {
+        if (moduleName === 'react') {
+        }
     };
     return NoReactAsteriskImportsWalker;
 }(Lint.RuleWalker));

@@ -5,12 +5,6 @@ import * as Lint from 'tslint';
  * Implementation of no-react-asterisk-import rule
  */
 export class Rule extends Lint.Rules.AbstractRule {
-    public static metadata = {
-        ruleName: 'no-react-asterisk-imports',
-        type: 'maintainability',
-        description: 'Avoid using asterisk imports with React',
-        severity: 'Low'
-    }
 
     public static FAILURE_STRING = "Use import React, { ... } instead";
 
@@ -29,15 +23,15 @@ export class NoReactAsteriskImportsWalker extends Lint.RuleWalker {
                 this.validateImport(node, name, moduleName);
             }
         }
-        
-        this.addFailure(this.createFailure(node.getStart(), node.getWidth(), Rule.FAILURE_STRING));
 
         super.visitImportDeclaration(node);
     }
 
     private validateImport(node: ts.ImportEqualsDeclaration | ts.ImportDeclaration, importedName: string, moduleName: string) {
         if (moduleName === 'react') {
-
+            if (importedName.match('*') != null) {
+                this.addFailure(this.createFailure(node.getStart(), node.getWidth(), Rule.FAILURE_STRING));
+            }
         }
     }
 }
