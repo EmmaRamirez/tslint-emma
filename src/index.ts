@@ -30,7 +30,7 @@ export class NoReactAsteriskImportsWalker extends Lint.RuleWalker {
     private validateImport(node: ts.ImportEqualsDeclaration | ts.ImportDeclaration, importedName: string, moduleName: string) {
         if (moduleName === 'react') {
             if (importedName.match('*') != null) {
-                this.addFailure(this.createFailure(node.getStart(), node.getWidth(), Rule.FAILURE_STRING));
+                this.addFailureAtNode(node, Rule.FAILURE_STRING);
             }
         }
     }

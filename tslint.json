@@ -7,6 +7,8 @@
     "rules": {
         "semicolon": true,
         "quotemark": [true, "single"],
+        "ban-ts-ignore": [true],
+        "no-react-asterisk-import": true,
     },
     "rulesDirectory": [
         "./dist"
